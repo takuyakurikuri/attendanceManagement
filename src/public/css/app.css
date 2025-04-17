@@ -1,0 +1,12 @@
+.logo {
+    max-height: 38px;
+    max-width: 200px;
+    width: auto;
+}
+
+.btn-fixed {
+    min-width: 90px; 
+    white-space: nowrap; 
+    text-align: center; 
+    padding: 6px 12px; 
+}

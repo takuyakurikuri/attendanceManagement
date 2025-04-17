@@ -22,11 +22,11 @@
                 </div>
             </a>
         
-            {{-- @if (!Request::is(['register', 'login']))
-                <form class="d-flex w-50 w-md-25 flex-grow-1" action="/search" method="get">
+            @if (!Request::is(['register', 'login']))
+                {{-- <form class="d-flex w-50 w-md-25 flex-grow-1" action="/search" method="get">
                     <input class="form-control mx-2" name="keyword" type="text" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
                     <input type="hidden" name="tab" value="{{ request('tab', 'mylist') }}">
-                </form>
+                </form> --}}
 
                 <div class="d-flex align-items-center gap-2 gap-md-3">
                     @if(Auth::check())
@@ -37,10 +37,8 @@
                     @else
                         <a class="btn btn-secondary btn-fixed" href="/login">ログイン</a>
                     @endif
-                    <a class="btn btn-secondary btn-fixed" href="/mypage">マイページ</a>
-                    <a class="btn btn-secondary btn-fixed" href="/sell">出品</a>
                 </div>
-            @endif --}}
+            @endif
         </div>
     </div>
 </header>
