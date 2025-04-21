@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function attendance_corrections(){
+        return $this->belongsToMany(AttendanceCorrection::class);
+    }
+
+    public function attendances(){
+        return $this->belongsToMany(Attendance::class);
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomRegisterController;
 use App\Http\Controllers\CustomLoginController;
@@ -7,8 +8,13 @@ use App\Http\Controllers\CustomLoginController;
 
 
 Route::middleware('auth'/*,'verified'*/)->group(function(){
-Route::get('/', function () { return view('index'); });
-Route::get('/attendance', function () { return view('attendance'); });
+    //Route::get('/', function () { return view('index'); });
+    Route::get('/attendance', [AttendanceController::class,'attendanceStatus']);
+    Route::Post('/attendance/clockIn',[AttendanceController::class,'ClockIn']);
+    Route::patch('/attendance/clockOut',[AttendanceController::class,'clockOut']);
+    Route::Post('/attendance/breakStart',[AttendanceController::class,'breakStart']);
+    Route::patch('/attendance/breakEnd',[AttendanceController::class,'breakEnd']);
+    Route::get('/attendance/list', [AttendanceController::class,'attendanceList']);
 });
 
 /*

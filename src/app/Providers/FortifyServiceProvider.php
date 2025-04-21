@@ -13,6 +13,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\LogoutResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -24,7 +26,7 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->instance(RegisterResponse::class, new class implements RegisterResponse {
         public function toResponse($request)
         {
-            return redirect('/login');
+            return redirect('/attendance');
         }
     });
     }
@@ -55,6 +57,35 @@ class FortifyServiceProvider extends ServiceProvider
 
         // RateLimiter::for('two-factor', function (Request $request) {
         //     return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        // });
+
+        //カスタムログイン処理
+        app()->singleton(LoginResponse::class,function() {
+            return new class implements LoginResponse {
+                public function toResponse($request)
+                {
+                    return redirect('/attendance');
+                }
+            };
+        });
+
+        //カスタムログアウト処理
+        app()->singleton(LogoutResponse::class, function () {
+            return new class implements LogoutResponse {
+                public function toResponse($request)
+                {
+                    return redirect('/login');
+                }
+            };
+        });
+
+        // app()->singleton(RegisterResponse::class, function() {
+        //     return new class implements RegisterResponse {
+        //         public function toResponse($request)
+        //         {
+        //             return redirect('attendance');
+        //         }
+        //     };
         // });
     }
 }

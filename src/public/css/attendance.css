@@ -1,0 +1,55 @@
+body {
+    background-color: #f1f3f2;
+}
+
+main {
+    margin-top: 100px;
+}
+
+.status-label {
+    background-color: #e0e0e0;
+    color: #555;
+    font-size: 0.9rem;
+    border-radius: 1rem;
+    padding: 0.3rem 1rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.current-time {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.attendance-button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+    margin-top: 2rem;
+}
+
+.attendance-button:hover {
+    background-color: #333;
+}
+
+.break-button {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 0.7rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+    margin-top: 2rem;
+}
+
+.break-button:hover {
+    background-color: #ccc;
+}
+
+.thanks {
+    font-size: 1.2rem;
+    margin-top: 60px;
+}

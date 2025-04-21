@@ -13,35 +13,31 @@
 </head>
 <body>
     <header class="bg-dark text-white py-2">
-    <div class="container">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center my-2 gap-3">
-            
-            <a href="/">
-                <div class="d-flex align-items-center">
-                    <img class="logo" src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
-                </div>
-            </a>
-        
-            @if (!Request::is(['register', 'login']))
-                {{-- <form class="d-flex w-50 w-md-25 flex-grow-1" action="/search" method="get">
-                    <input class="form-control mx-2" name="keyword" type="text" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
-                    <input type="hidden" name="tab" value="{{ request('tab', 'mylist') }}">
-                </form> --}}
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+                    <img class="logo me-2" src="{{ asset('images/logo.svg') }}" alt="COACHTECH" style="height: 40px;">
+                </a>
 
-                <div class="d-flex align-items-center gap-2 gap-md-3">
-                    @if(Auth::check())
-                        <form action="/logout" method="post">
-                            @csrf
-                            <button class="btn btn-secondary btn-fixed">ログアウト</button>
-                        </form>
-                    @else
-                        <a class="btn btn-secondary btn-fixed" href="/login">ログイン</a>
-                    @endif
-                </div>
-            @endif
+                @if (!Request::is(['register', 'login']))
+                    <div class="d-flex align-items-center gap-3">
+                        <a class="text-white text-decoration-none fw-bold" href="/attendance">勤怠</a>
+                        <a class="text-white text-decoration-none fw-bold" href="/attendance/list">勤怠一覧</a>
+                        <a class="text-white text-decoration-none fw-bold" href="/stamp_correction_request/list">申請</a>
+
+                        @if(Auth::check())
+                            <form action="/logout" method="post" class="mb-0">
+                                @csrf
+                                <button type="submit" class="btn btn-link text-white text-decoration-none fw-bold p-0">ログアウト</button>
+                            </form>
+                        @else
+                            <a class="text-white text-decoration-none fw-bold" href="/login">ログイン</a>
+                        @endif
+                    </div>
+                @endif
+            </div>
         </div>
-    </div>
-</header>
+    </header>
     <main>
         @yield('content')
     </main>
