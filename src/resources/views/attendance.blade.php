@@ -19,6 +19,8 @@
             <div class="status-label">退勤済</div>
         @elseif ($isWorkingToday)
             <div class="status-label">出勤中</div>
+        @elseif ($isBreaking)
+            <div class="status-label">休憩中</div>
         @else
             <div class="status-label">勤務外</div>
         @endif

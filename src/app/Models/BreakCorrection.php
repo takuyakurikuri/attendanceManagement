@@ -14,6 +14,11 @@ class BreakCorrection extends Model
         'break_end',
         'attendance_correction_id'
     ];
+
+    protected $casts = [
+        'break_start' => 'datetime',
+        'break_end' => 'datetime',
+    ];
     
     public function attendance_correction(){
         return $this->belongsTo(AttendanceCorrection::class);

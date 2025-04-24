@@ -16,15 +16,20 @@ class AttendanceCorrection extends Model
         'attendance_id',
     ];
 
+    protected $casts = [
+    'clock_in' => 'datetime',
+    'clock_out' => 'datetime',
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
 
-    public function attendances(){
-        return $this->belongsToMany(Attendance::class);
+    public function attendance(){
+        return $this->belongsTo(Attendance::class);
     }
 
     public function breakCorrections(){
-        return $this->belongsToMany(BreakCorrection::class);
+        return $this->hasMany(BreakCorrection::class);
     }
 }

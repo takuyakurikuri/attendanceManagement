@@ -1,9 +1,17 @@
-.detail {
+body {
+    background-color: #eee;
+}
+
+.detail-link {
     text-decoration: none;
     color: #000;
     font-weight: bold;
 }
 
-th {
-    color: #aaa !important;
+.table th {
+    color: #aaa;
+}
+
+.border-start {
+    border-color: #000 !important;
 }

@@ -19,7 +19,7 @@ class Attendance extends Model
     protected $casts = [
     'clock_in' => 'datetime',
     'clock_out' => 'datetime',
-];
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);

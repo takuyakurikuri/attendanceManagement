@@ -1,0 +1,30 @@
+body {
+    background-color: #eee;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.attendanceCorrection {
+    border: none !important;
+    outline: none !important;
+}
+
+.form-section {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-container {
+    text-align: right;
+    margin-top: 1rem;
+}
+.border-start {
+    border-color: #000 !important;
+}
+
+label {
+    color: #999 !important;
+}

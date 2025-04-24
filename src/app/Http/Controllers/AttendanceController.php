@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\AttendanceCorrection;
 use App\Models\BreakTime;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -33,11 +34,20 @@ class AttendanceController extends Controller
         return view('attendance',compact('isWorkingToday','attendance','isBreaking','isClockOut'));
     }
 
-    public function attendanceList(){
-        $today = Carbon::today();
+    public function attendanceList(Request $request){
+        $month = $request->input('month');
+        $date = $month ? Carbon::createFromFormat('Y-m',$month) : Carbon::today();
         $week = ['日','月','火','水','木','金','土'];
-        $attendances = Attendance::with('breakTimes')->where('user_id',Auth::id())->whereMonth('clock_in',$today->format('n'))->get();
-        return view('attendance_list', compact('attendances','today','week'));
+        $attendances = Attendance::with('breakTimes')->where('user_id',Auth::id())->whereYear('clock_in',$date->format('Y'))->whereMonth('clock_in',$date->format('m'))->get();
+        return view('attendance_list', compact('attendances','date','week'));
+    }
+
+    public function attendanceDetail($attendance_id){
+        $attendance = Attendance::find($attendance_id);
+        $breakTimes = BreakTime::where('attendance_id',$attendance_id)->get();
+        $user = Auth::user();
+        $attendanceCorrection = AttendanceCorrection::where('attendance_id',$attendance->id)->first();
+        return view('attendance_detail',compact('attendance','breakTimes','user','attendanceCorrection'));
     }
 
     public function clockIn(){

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\CorrectionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomRegisterController;
 use App\Http\Controllers\CustomLoginController;
@@ -14,7 +15,10 @@ Route::middleware('auth'/*,'verified'*/)->group(function(){
     Route::patch('/attendance/clockOut',[AttendanceController::class,'clockOut']);
     Route::Post('/attendance/breakStart',[AttendanceController::class,'breakStart']);
     Route::patch('/attendance/breakEnd',[AttendanceController::class,'breakEnd']);
-    Route::get('/attendance/list', [AttendanceController::class,'attendanceList']);
+    Route::get('/attendance/list', [AttendanceController::class,'attendanceList'])->name('attendance.list');
+    Route::get('/attendance/{attendance_id}', [AttendanceController::class,'attendanceDetail']);
+    Route::get('/stamp_correction_request/list', [CorrectionController::class,'changeApplicationList']);
+    Route::post('/attendance/modify', [CorrectionController::class,'apply']);
 });
 
 /*
