@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -52,5 +53,13 @@ class User extends Authenticatable
 
     public function attendances(){
         return $this->belongsToMany(Attendance::class);
+    }
+
+    public function isAdmin(){
+        return $this->role === 1;
+    }
+
+    public function isUser(){
+        return $this->role === 2;
     }
 }

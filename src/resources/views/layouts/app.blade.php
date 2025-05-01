@@ -20,13 +20,18 @@
                     <img class="logo me-2" src="{{ asset('images/logo.svg') }}" alt="COACHTECH" style="height: 40px;">
                 </a>
 
-                @if (!Request::is(['register', 'login']))
+                @if (!Request::is(['register', 'login','admin/login']))
                     <div class="d-flex align-items-center gap-3">
                         <a class="text-white text-decoration-none fw-bold" href="/attendance">勤怠</a>
                         <a class="text-white text-decoration-none fw-bold" href="/attendance/list">勤怠一覧</a>
                         <a class="text-white text-decoration-none fw-bold" href="/stamp_correction_request/list">申請</a>
 
-                        @if(Auth::check())
+                        @if(Auth::guard('admin')->check())
+                            <form action="/admin/logout" method="post" class="mb-0">
+                                @csrf
+                                <button type="submit" class="btn btn-link text-white text-decoration-none fw-bold p-0">ログアウト</button>
+                            </form>
+                        @elseif(Auth::check())
                             <form action="/logout" method="post" class="mb-0">
                                 @csrf
                                 <button type="submit" class="btn btn-link text-white text-decoration-none fw-bold p-0">ログアウト</button>

@@ -19,7 +19,8 @@ class UsersSeeder extends Seeder
         $param = [
             'name' => 'superuser',
             'email' => 'superuser@example.com',
-            'password' => Hash::make('password')
+            'password' => Hash::make('password'),
+            'role' => 1,
         ];
 
         DB::table('users')->insert($param);

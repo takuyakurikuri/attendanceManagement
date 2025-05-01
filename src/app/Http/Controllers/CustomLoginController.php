@@ -14,6 +14,8 @@ use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
 use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Illuminate\Routing\Pipeline;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 /*
  * FormRequestを使用するために元のログインコントローラを継承
@@ -23,10 +25,29 @@ class CustomLoginController extends AuthenticatedSessionController
     /**
      * LoginRequestをカスタムしたFormRequestに置き換えるために再定義
      */
+    // public function customStore(LoginRequest $request)
+    // {
+    //     return $this->customLoginPipeline($request)->then(function ($request) {
+    //         return app(LoginResponse::class);
+    //     });
+    // }
+
     public function customStore(LoginRequest $request)
     {
+
         return $this->customLoginPipeline($request)->then(function ($request) {
-            return app(LoginResponse::class);
+            $credentials = $request->only('email','password');
+            $guard = $request->is('admin/*') ? 'admin': 'web';
+            $role = $guard==='admin' ? 1 : 2;
+
+            if(Auth::guard($guard)->attempt(array_merge($credentials,['role' => $role]))){
+                $request->session()->regenerate();
+                return redirect()->intended($guard === 'admin' ? 'admin/attendance/list' : '/attendance');
+            }
+            
+            return back()->withErrors([
+                'email' => 'ログイン情報が正しくありません。',
+            ]);
         });
     }
 
@@ -35,6 +56,9 @@ class CustomLoginController extends AuthenticatedSessionController
      */
     protected function customLoginPipeline(LoginRequest $request)
     {
+
+        $isAdmin = request()->is('admin/*');
+
         if (Fortify::$authenticateThroughCallback) {
             return (new Pipeline(app()))->send($request)->through(array_filter(
                 call_user_func(Fortify::$authenticateThroughCallback, $request)
@@ -51,7 +75,7 @@ class CustomLoginController extends AuthenticatedSessionController
             config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
             config('fortify.lowercase_usernames') ? CanonicalizeUsername::class : null,
             Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
-            AttemptToAuthenticate::class,
+            //AttemptToAuthenticate::class,
             PrepareAuthenticatedSession::class,
         ]));
     }

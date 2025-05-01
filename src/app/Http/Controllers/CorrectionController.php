@@ -9,10 +9,11 @@ use App\Models\BreakCorrection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\BreakTime;
+use App\Http\Requests\AttendanceCorrectionRequest;
 
 class CorrectionController extends Controller
 {
-    public function apply(Request $request){
+    public function apply(AttendanceCorrectionRequest $request){
         $attendance = Attendance::find($request->attendance_id);
         $originalDate = $attendance->clock_in->format('Y-m-d');
         $newClockIn = Carbon::createFromFormat('Y-m-d H:i', $originalDate . ' ' . $request->clock_in);

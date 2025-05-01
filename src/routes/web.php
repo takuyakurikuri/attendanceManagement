@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAttendanceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CorrectionController;
 use Illuminate\Support\Facades\Route;
@@ -21,9 +22,28 @@ Route::middleware('auth'/*,'verified'*/)->group(function(){
     Route::post('/attendance/modify', [CorrectionController::class,'apply']);
 });
 
-/*
-会員登録とログイン画面は
-App\Providers\FortifyServiceProvider::boot() 内にルートとして定義
-*/
+Route::get('/login', function () { return view('auth.login');})->name('login');
+Route::get('/register', function () { return view('auth.register');});
+
 Route::Post('/register/store',[CustomRegisterController::class,'customStore']);
 Route::Post('/login/store',[CustomLoginController::class,'customStore']);
+
+Route::get('/admin/login', function () { return view('auth.admin_login');})->name('admin.login');
+Route::Post('/admin/login/store',[CustomLoginController::class,'customStore']);
+
+Route::middleware('auth:admin')->group(function(){
+    Route::get('/admin/attendance/list', [AdminAttendanceController::class,'memberList']);
+    Route::post('/admin/logout', [AdminAttendanceController::class,'adminLogout']);
+});
+// Route::prefix('admin')->name('admin.')->group(function () {
+//     // 管理者ログインページ
+//     Route::get('login', [AdminAttendanceController::class, 'adminLogin'])->name('login');
+
+//     // ログアウト
+//     Route::post('logout', [AdminAttendanceController::class, 'adminLogout'])->name('logout');
+
+//     // 認証後にアクセスできるページ
+//     Route::middleware('auth:admin')->group(function () {
+//         Route::get('attendance/list', [AdminAttendanceController::class, 'memberList'])->name('attendance.list');
+//     });
+// });
