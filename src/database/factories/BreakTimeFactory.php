@@ -20,7 +20,7 @@ class BreakTimeFactory extends Factory
         return [
             'attendance_id' => 2,
             'break_start' => now(),
-            'break_end' => now(),
+            'break_end' => now()->addMinutes(15),
         ];
     }
 }

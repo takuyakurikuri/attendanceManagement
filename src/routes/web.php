@@ -32,8 +32,11 @@ Route::get('/admin/login', function () { return view('auth.admin_login');})->nam
 Route::Post('/admin/login/store',[CustomLoginController::class,'customStore']);
 
 Route::middleware('auth:admin')->group(function(){
-    Route::get('/admin/attendance/list', [AdminAttendanceController::class,'memberList']);
+    Route::get('/admin/attendance/list', [AdminAttendanceController::class,'memberList'])->name('member.list');
     Route::post('/admin/logout', [AdminAttendanceController::class,'adminLogout']);
+    Route::get('/admin/staff/list',[AdminAttendanceController::class,'staffList']);
+    Route::get('/stamp_correction_request/list', [AdminAttendanceController::class,'adminChangeApplicationList']);
+    Route::get('/admin/attendance/staff/{user_id}', [AdminAttendanceController::class,'staffAttendanceList']);
 });
 // Route::prefix('admin')->name('admin.')->group(function () {
 //     // 管理者ログインページ

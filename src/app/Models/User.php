@@ -48,11 +48,11 @@ class User extends Authenticatable
     }
 
     public function attendance_corrections(){
-        return $this->belongsToMany(AttendanceCorrection::class);
+        return $this->hasMany(AttendanceCorrection::class);
     }
 
     public function attendances(){
-        return $this->belongsToMany(Attendance::class);
+        return $this-> hasMany(Attendance::class);
     }
 
     public function isAdmin(){
