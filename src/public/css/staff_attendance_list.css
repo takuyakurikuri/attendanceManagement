@@ -1,0 +1,17 @@
+body {
+    background-color: #eee;
+}
+
+.detail-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+}
+
+.table th {
+    color: #aaa;
+}
+
+.border-start {
+    border-color: #000 !important;
+}

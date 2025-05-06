@@ -42,14 +42,20 @@ class AdminAttendanceController extends Controller
     }
 
     public function staffList() {
-        return view('staff_list');
+        $users = User::where('id', '!=', 1)->get();
+        return view('staff_list',compact('users'));
     }
     
     public function adminChangeApplicationList(){
         return view('admin_change_application_list');
     }
 
-    public function staffAttendanceList($user_id){
-        return view('staff_attendance_list');
+    public function staffAttendanceList(Request $request, $user_id){
+        $user = User::find($user_id);
+        $month = $request->input('month');
+        $date = $month ? Carbon::createFromFormat('Y-m',$month) : Carbon::today();
+        $week = ['日','月','火','水','木','金','土'];
+        $attendances = Attendance::with('breakTimes')->where('user_id',$user->id)->whereYear('clock_in',$date->format('Y'))->whereMonth('clock_in',$date->format('m'))->get();
+        return view('staff_attendance_list', compact('attendances','date','week','user'));
     }
 }

@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\MultiGuardAuth;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,6 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias(['auth' => Authenticate::class]);
+        //->append(MultiGuardAuth::class);
+        //上記は登録するだけなら不要か？
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

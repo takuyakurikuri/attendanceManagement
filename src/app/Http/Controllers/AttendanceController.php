@@ -45,7 +45,8 @@ class AttendanceController extends Controller
     public function attendanceDetail($attendance_id){
         $attendance = Attendance::find($attendance_id);
         $breakTimes = BreakTime::where('attendance_id',$attendance_id)->get();
-        $user = Auth::user();
+        // $user = Auth::user();
+        $user = $attendance->user;
         $attendanceCorrection = AttendanceCorrection::where('attendance_id',$attendance->id)->first();
         return view('attendance_detail',compact('attendance','breakTimes','user','attendanceCorrection'));
     }

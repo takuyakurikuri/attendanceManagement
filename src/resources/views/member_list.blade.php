@@ -129,7 +129,7 @@
                                 @endphp
                                 {{ $workHours }}:{{ $workMinutes }}
                             </td>
-                            <td><a href="" class="detail-link">詳細</a></td>
+                            <td><a href="/attendance/{{$attendance->id}}" class="detail-link">詳細</a></td>
                         @else
                             <td colspan="5">出勤記録なし</td>
                         @endif

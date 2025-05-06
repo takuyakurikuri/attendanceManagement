@@ -13,61 +13,6 @@
 @endsection
 
 @section('content')
-    {{-- <table>
-            <form action="/attendance/modify" id="attendance-modify" method="post">
-                @csrf
-                <input type="hidden" name="attendance_id" value="{{$attendance->id}}">
-                <tr>
-                    <th>名前</th>
-                    <td>{{$user->name}}</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>日付</th>
-                    <td>{{$attendance->clock_in->format('Y')}}年</td>
-                    <td></td>
-                    <td>{{$attendance->clock_in->format('n月j日')}}</td>
-                </tr>
-                <tr>
-                    <th>出勤・退勤</th>
-                    <td><input type="time" name="clock_in" value="{{$attendance->clock_in->format('H:i')}}"></td>
-                    <td>〜</td>
-                    <td><input type="time" name="clock_out" value="{{$attendance->clock_out->format('H:i')}}"></td>
-                </tr>
-                @foreach ($breakTimes as $index => $breakTime)
-                    <tr>
-                        <th>休憩</th>
-                        <td><input type="time" name="break_start[]" value="{{$breakTime->break_start->format('H:i')}}"></td>
-                        <td>〜</td>
-                        <td><input type="time" name="break_end[]" value="{{$breakTime->break_end->format('H:i')}}"></td>
-                        <input type="hidden" name="breakTime_id[]" value="{{$breakTime->id}}">
-                    </tr>
-                @endforeach
-                <tr>
-                    <th>備考</th>
-                    <td><textarea name="reason" placeholder="申請の理由を記載して下さい"></textarea></td>
-                </tr>
-            </form>
-    </table>
-    @error('clock_in')
-        {{$message}}
-    @enderror
-    @error('clock_out')
-        {{$message}}
-    @enderror
-    @error('break_start')
-        {{$message}}
-    @enderror
-    @error('break_end')
-        {{$message}}
-    @enderror
-    @if ($isWaitingForApproval)
-        <h2>現在承認待ちのため修正はできません</h2>
-    @else
-        <button form="attendance-modify" type="submit">修正</button>
-    @endif --}}
-
     <div class="container py-5">
         <div class="mb-4">
             <h4 class="fw-bold border-start border-4 ps-3">勤怠詳細</h4>

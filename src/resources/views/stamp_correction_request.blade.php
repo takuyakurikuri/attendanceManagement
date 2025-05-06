@@ -110,7 +110,8 @@
                                     無効な申請です
                             @endswitch
                         </td>
-                        <td>{{$user->name}}</td>
+                        {{-- <td>{{$user->name}}</td> --}}
+                        <td>{{$attendanceCorrection->user->name}}</td>
                         <td>{{$attendanceCorrection->clock_in->format('Y/m/d')}}</td>
                         <td>{{$attendanceCorrection->reason}}</td>
                         <td>{{$attendanceCorrection->created_at->format('Y/m/d')}}</td>
