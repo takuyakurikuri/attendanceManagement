@@ -32,4 +32,5 @@ class AttendanceCorrection extends Model
     public function breakCorrections(){
         return $this->hasMany(BreakCorrection::class);
     }
+
 }

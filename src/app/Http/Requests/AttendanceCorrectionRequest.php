@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceCorrectionRequest extends FormRequest
 {
@@ -22,10 +23,10 @@ class AttendanceCorrectionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'reason' =>[
-                'required',
-            ],
+        $rules =  [
+            // 'reason' =>[
+            //     'required',
+            // ],
             'clock_in' =>[
                 'required',
             ],
@@ -50,6 +51,12 @@ class AttendanceCorrectionRequest extends FormRequest
                 'date_format:H:i'
             ],
         ];
+        
+        if(!Auth::guard('admin')->check()){
+            $rules['reason'] = ['required'];
+        }
+
+        return $rules;
     }
 
     public function withValidator(Validator $validator)

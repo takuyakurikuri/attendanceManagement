@@ -115,7 +115,14 @@
                         <td>{{$attendanceCorrection->clock_in->format('Y/m/d')}}</td>
                         <td>{{$attendanceCorrection->reason}}</td>
                         <td>{{$attendanceCorrection->created_at->format('Y/m/d')}}</td>
-                        <td><a href="/attendance/{{$attendanceCorrection->attendance->id}}" class="detail-link">詳細</a></td>
+                        <td>
+                            @auth('admin')
+                                <a href="/stamp_correction_request/approve/{{$attendanceCorrection->id}}" class="detail-link">詳細</a>
+                            @else
+                                <a href="/attendance/{{$attendanceCorrection->attendance->id}}" class="detail-link">詳細</a>
+                            @endif
+                            
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

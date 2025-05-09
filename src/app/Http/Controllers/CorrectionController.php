@@ -99,7 +99,8 @@ class CorrectionController extends Controller
         // return view('stamp_correction_request',compact('user','attendanceCorrections'));
     }
 
-    public function requestDetail(){
-        return view('request_detail');
+    public function requestDetail($attendance_correct_request){
+        $attendanceCorrection = AttendanceCorrection::find($attendance_correct_request);
+        return view('request_detail',compact('attendanceCorrection'));
     }
 }

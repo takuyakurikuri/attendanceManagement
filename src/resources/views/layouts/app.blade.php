@@ -16,9 +16,15 @@
     <header class="bg-dark text-white py-2">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <a href="/" class="d-flex align-items-center text-white text-decoration-none">
-                    <img class="logo me-2" src="{{ asset('images/logo.svg') }}" alt="COACHTECH" style="height: 40px;">
-                </a>
+                @if(Auth::guard('admin')->check())
+                    <a href="/admin/attendance/list" class="d-flex align-items-center text-white text-decoration-none">
+                        <img class="logo me-2" src="{{ asset('images/logo.svg') }}" alt="COACHTECH" style="height: 40px;">
+                    </a>
+                @else
+                    <a href="/attendance" class="d-flex align-items-center text-white text-decoration-none">
+                        <img class="logo me-2" src="{{ asset('images/logo.svg') }}" alt="COACHTECH" style="height: 40px;">
+                    </a>
+                @endif
 
                 @if (!Request::is(['register', 'login','admin/login']))
                     <div class="d-flex align-items-center gap-3">
