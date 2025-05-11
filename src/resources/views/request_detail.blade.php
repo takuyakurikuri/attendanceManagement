@@ -21,8 +21,9 @@
     <div class="card shadow-sm">
         <div class="card-body p-4 pb-0">
 
-            <form action="/attendance/modify" id="attendance-modify" method="post">
+            <form action="/stamp_correction_request/approve" id="approve-request" method="post">
                 @csrf
+                <input type="hidden" name="attendanceCorrection_id" id="" value="{{$attendanceCorrection->id}}">
                 {{-- <input type="hidden" name="attendance_id" value="{{$attendance->id}}"> --}}
 
                 <div class="row form-section">
@@ -76,8 +77,14 @@
         </div>
     </div>
 
-    <div class="text-danger fw-bold text-end mt-4">
-        <button>承認</button>
-    </div>
+    @if($attendanceCorrection->status == 2)
+        <div class="btn-container">
+            <p class="btn btn-secondary" disabled>承認済み</p>
+        </div>
+    @else
+        <div class="btn-container">
+            <button form="approve-request" type="submit" class="btn btn-dark px-4">承認</button>
+        </div>
+    @endif
 </div>
 @endsection

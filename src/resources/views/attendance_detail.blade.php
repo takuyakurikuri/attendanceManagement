@@ -45,7 +45,7 @@
                     <div class="row form-section">
                         <label class="col-sm-2 col-form-label fw-bold">出勤・退勤</label>
                         <div class="col-sm-4">
-                            @if ($attendanceCorrection)
+                            @if (optional($attendanceCorrection)->status == 1)
                                 <p class="form-control fw-bold attendanceCorrection">{{$attendanceCorrection->clock_in->format('H:i')}}</p>
                             @else
                                 <input type="time" name="clock_in" class="form-control fw-bold" value="{{$attendance->clock_in->format('H:i')}}">
@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-sm-1 text-center">〜</div>
                         <div class="col-sm-4">
-                            @if ($attendanceCorrection)
+                            @if (optional($attendanceCorrection)->status == 1)
                                 <p class="form-control fw-bold attendanceCorrection">{{$attendanceCorrection->clock_out->format('H:i')}}</p>
                             @else
                                 <input type="time" name="clock_out" class="form-control fw-bold" value="{{$attendance->clock_out->format('H:i')}}">
@@ -63,7 +63,7 @@
                         </div>
                     </div>
 
-                    @if ($attendanceCorrection)
+                    @if (optional($attendanceCorrection)->status == 1)
                         @foreach ($attendanceCorrection->breakCorrections as $index => $breakTime)
                             <div class="row form-section">
                                 <label class="col-sm-2 col-form-label fw-bold">休憩</label>
@@ -102,7 +102,7 @@
                     <div class="row form-section align-items-start mb-0">
                         <label class="col-sm-2 col-form-label fw-bold">備考</label>
                         <div class="col-sm-9">
-                            @if ($attendanceCorrection)
+                            @if (optional($attendanceCorrection)->status == 1)
                                 <p class="form-control fw-bold attendanceCorrection">{{$attendanceCorrection->reason}}</p>
                             @else
                                 <textarea name="reason" class="form-control fw-bold" placeholder="申請の理由を記載して下さい"></textarea>
@@ -114,7 +114,7 @@
             </div>
         </div>
 
-        @if ($attendanceCorrection)
+        @if (optional($attendanceCorrection)->status == 1)
             <div class="text-danger fw-bold text-end mt-4">
                 ※承認待ちのため修正はできません
             </div>

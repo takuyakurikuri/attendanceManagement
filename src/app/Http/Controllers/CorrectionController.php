@@ -83,14 +83,21 @@ class CorrectionController extends Controller
 
     }
 
-    public function changeApplicationList(){
+    public function changeApplicationList(Request $request){
 
-        $admin = Auth::guard('admin')->user();
-        if($admin){
-            $attendanceCorrections = AttendanceCorrection::where('user_id','!=',1)->get();
+        //$admin = Auth::guard('admin')->user();
+        if(Auth::guard('admin')->check()){
+            if($request->tab == 'approved'){
+                $attendanceCorrections = AttendanceCorrection::where('user_id','!=',1)->where('status',2)->get();
+            }else{
+                $attendanceCorrections = AttendanceCorrection::where('user_id','!=',1)->where('status',1)->get();
+            }
         }else {
-            $user = Auth::user();
-            $attendanceCorrections = AttendanceCorrection::where('user_id',$user->id)->get();
+            if($request->tab == 'approved'){
+                $attendanceCorrections = AttendanceCorrection::where('user_id',Auth::user()->id)->where('status',2)->get();
+            }else{
+                $attendanceCorrections = AttendanceCorrection::where('user_id',Auth::user()->id)->where('status',1)->get();
+            }
         }
 
         return view('stamp_correction_request',compact('attendanceCorrections'));
@@ -102,5 +109,30 @@ class CorrectionController extends Controller
     public function requestDetail($attendance_correct_request){
         $attendanceCorrection = AttendanceCorrection::find($attendance_correct_request);
         return view('request_detail',compact('attendanceCorrection'));
+    }
+
+    public function approveRequest(Request $request){
+        $attendanceCorrection = AttendanceCorrection::find($request->attendanceCorrection_id);//->update(['status' => 2,]);//承認済みステータスへ
+        $attendance = Attendance::find($attendanceCorrection->attendance_id);//->update([
+            //'clock_in' => $attendanceCorrection->clock_in,
+            //'clock_out' => $attendanceCorrection->clock_out,
+        //]);
+
+        $breakTimes = BreakTime::where('attendance_id',$attendance->id)->get();
+        foreach($breakTimes as $i => $breakTime){
+            breakTime::find($breakTime->id)->update([
+                'break_start' => $attendanceCorrection->breakCorrections[$i]->break_start,
+                'break_end' => $attendanceCorrection->breakCorrections[$i]->break_end,
+            ]);
+        }
+
+        $attendance->update([
+            'clock_in' => $attendanceCorrection->clock_in,
+            'clock_out' => $attendanceCorrection->clock_out,
+        ]);
+
+        $attendanceCorrection->update(['status' => 2,]);
+        
+        return redirect()->route('attendance.correct.request',['attendance_correct_request' => $attendanceCorrection->id]);
     }
 }

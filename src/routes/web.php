@@ -37,7 +37,8 @@ Route::middleware('auth:admin')->group(function(){
     // Route::get('/stamp_correction_request/list', [AdminAttendanceController::class,'adminChangeApplicationList']);
     Route::get('/admin/attendance/staff/{user_id}', [AdminAttendanceController::class,'staffAttendanceList'])->name('admin.attendance.list');
     //Route::get('/attendance/{attendance_id}', [AttendanceController::class,'attendanceDetail']);
-    Route::get('/stamp_correction_request/approve/{attendance_correct_request}',[CorrectionController::class,'requestDetail']);
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request}',[CorrectionController::class,'requestDetail'])->name('attendance.correct.request');
+    Route::post('/stamp_correction_request/approve',[CorrectionController::class,'approveRequest'])->name('approve.request');
 });
 
 Route::middleware(MultiGuardAuth::class)->group(function(){
