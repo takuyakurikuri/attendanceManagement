@@ -41,6 +41,15 @@ class CustomLoginController extends AuthenticatedSessionController
             $role = $guard==='admin' ? 1 : 2;
 
             if(Auth::guard($guard)->attempt(array_merge($credentials,['role' => $role]))){
+
+                //ここにメール認証入れればいけるかな？
+                // $user = auth()->user();
+
+                // if (!$user->hasVerifiedEmail()) {
+                //     auth()->logout();
+                //     return redirect()->route('verification.notice')
+                //         ->with('error', 'メール認証を完了してください。');
+                // }
                 $request->session()->regenerate();
                 return redirect()->intended($guard === 'admin' ? 'admin/attendance/list' : '/attendance');
             }

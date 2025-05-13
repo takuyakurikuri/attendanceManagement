@@ -82,5 +82,13 @@
             </tbody>
         </table>
     </div>
+    <form action="/admin/attendance/staff/csv" method="post">
+        @csrf
+        <input type="hidden" name="user_id" value="{{$user->id}}">
+        <input type="hidden" name="date" value="{{$date->format('Y-m')}}">
+        <div class="btn-container">
+            <button class="btn btn-dark" type="submit">CSV出力</button>
+        </div>
+    </form>
 </div>
 @endsection

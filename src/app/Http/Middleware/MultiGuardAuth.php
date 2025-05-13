@@ -31,6 +31,6 @@ class MultiGuardAuth
         }
 
         // 認証されていない場合
-        return redirect('/login'); // 任意のログインルートに変更
+        return redirect('/login'); //一般ユーザーへのリダイレクトを想定する
     }
 }

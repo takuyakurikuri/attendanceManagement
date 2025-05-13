@@ -15,3 +15,8 @@ body {
 .border-start {
     border-color: #000 !important;
 }
+
+.btn-container {
+    text-align: right;
+    margin-top: 1rem;
+}

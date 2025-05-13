@@ -39,6 +39,7 @@ Route::middleware('auth:admin')->group(function(){
     //Route::get('/attendance/{attendance_id}', [AttendanceController::class,'attendanceDetail']);
     Route::get('/stamp_correction_request/approve/{attendance_correct_request}',[CorrectionController::class,'requestDetail'])->name('attendance.correct.request');
     Route::post('/stamp_correction_request/approve',[CorrectionController::class,'approveRequest'])->name('approve.request');
+    Route::post('/admin/attendance/staff/csv',[AdminAttendanceController::class,'exportCsv']);
 });
 
 Route::middleware(MultiGuardAuth::class)->group(function(){
