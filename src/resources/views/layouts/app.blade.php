@@ -36,14 +36,18 @@
                                 @csrf
                                 <button type="submit" class="btn btn-link text-white text-decoration-none fw-bold p-0">ログアウト</button>
                             </form>
-                        @else
-                            <a class="text-white text-decoration-none fw-bold" href="/attendance">勤怠</a>
-                            <a class="text-white text-decoration-none fw-bold" href="/attendance/list">勤怠一覧</a>
-                            <a class="text-white text-decoration-none fw-bold" href="/stamp_correction_request/list">申請</a>
+                        @elseif(Auth::check())
+                            @if(!Request::is('email/verify'))
+                                <a class="text-white text-decoration-none fw-bold" href="/attendance">勤怠</a>
+                                <a class="text-white text-decoration-none fw-bold" href="/attendance/list">勤怠一覧</a>
+                                <a class="text-white text-decoration-none fw-bold" href="/stamp_correction_request/list">申請</a>
+                            @endif
                             <form action="/logout" method="post" class="mb-0">
                                 @csrf
                                 <button type="submit" class="btn btn-link text-white text-decoration-none fw-bold p-0">ログアウト</button>
                             </form>
+                        @else
+                            <a class="btn btn-secondary btn-fixed" href="/login">ログイン</a>
                         @endif
                     </div>
                 @endif

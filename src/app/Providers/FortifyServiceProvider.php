@@ -86,6 +86,16 @@ class FortifyServiceProvider extends ServiceProvider
             };
         });
 
+        //カスタム登録処理
+        app()->singleton(RegisterResponse::class,function() {
+            return new class implements RegisterResponse {
+                public function toResponse($request)
+                {
+                    return redirect()->route('verification.notice');
+                }
+            };
+        });
+
         //管理者を考慮したカスタムログイン処理
         // app()->singleton(LoginResponse::class, function () {
         //     return new class implements LoginResponse {

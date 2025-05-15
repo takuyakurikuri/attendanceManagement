@@ -26,8 +26,15 @@ class CustomRegisterController extends RegisteredUserController
             ]);
         }
 
-        event(new Registered($user = $creator->create($request->all())));
+        // event(new Registered($user = $creator->create($request->all())));
 
+        // $this->guard->login($user, $request->boolean('remember'));
+
+        $user = $creator->create($request->all());
+
+        $user->sendEmailVerificationNotification();
+
+        //ログインはしなくても大丈夫くないか？
         $this->guard->login($user, $request->boolean('remember'));
 
         return app(RegisterResponse::class);
