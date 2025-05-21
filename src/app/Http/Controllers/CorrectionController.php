@@ -10,7 +10,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\BreakTime;
 use App\Http\Requests\AttendanceCorrectionRequest;
-use App\Models\User;
 
 class CorrectionController extends Controller
 {
@@ -22,10 +21,9 @@ class CorrectionController extends Controller
         $newClockOut = Carbon::createFromFormat('Y-m-d H:i', $originalDate . ' ' . $request->clock_out);
         $admin = Auth::guard('admin')->user();
 
-        //管理者はその場で修正できる
+        //管理者はその場で修正
         if($admin){
 
-            //ビュー側でpatchメソッドとして送信してコントローラー処理を分けるのもアリかも。コントローラー側で完結させる場合はこれでOK？
             $attendance->update([
                 'clock_in' => $newClockIn,
                 'clock_out' => $newClockOut,
@@ -46,10 +44,10 @@ class CorrectionController extends Controller
                 ]);
             }
 
-            return redirect()->route('admin.attendance.list',['user_id' => $attendance->user_id, 'month' => $attendance->clock_in->format('Y-m')]);
-            // return redirect('admin/staff/list')->with('message', '管理者権限で勤怠を修正を申請しました');
+            return redirect()->route('admin.attendance.list',['user_id' => $attendance->user_id, 'month' => $attendance->clock_in->format('Y-m')])->with('message', '管理者権限で勤怠を修正を申請しました');
 
-        //一般ユーザーは申請をする
+
+        //一般ユーザーは申請する
         }else{
 
             $attendanceCorrection = AttendanceCorrection::create([
@@ -85,7 +83,6 @@ class CorrectionController extends Controller
 
     public function changeApplicationList(Request $request){
 
-        //$admin = Auth::guard('admin')->user();
         if(Auth::guard('admin')->check()){
             if($request->tab == 'approved'){
                 $attendanceCorrections = AttendanceCorrection::where('user_id','!=',1)->where('status',2)->get();
@@ -101,9 +98,6 @@ class CorrectionController extends Controller
         }
 
         return view('stamp_correction_request',compact('attendanceCorrections'));
-        // $user = Auth::user();
-        // $attendanceCorrections = AttendanceCorrection::where('user_id',$user->id)->get();
-        // return view('stamp_correction_request',compact('user','attendanceCorrections'));
     }
 
     public function requestDetail($attendance_correct_request){
@@ -112,11 +106,8 @@ class CorrectionController extends Controller
     }
 
     public function approveRequest(Request $request){
-        $attendanceCorrection = AttendanceCorrection::find($request->attendanceCorrection_id);//->update(['status' => 2,]);//承認済みステータスへ
-        $attendance = Attendance::find($attendanceCorrection->attendance_id);//->update([
-            //'clock_in' => $attendanceCorrection->clock_in,
-            //'clock_out' => $attendanceCorrection->clock_out,
-        //]);
+        $attendanceCorrection = AttendanceCorrection::find($request->attendanceCorrection_id);
+        $attendance = Attendance::find($attendanceCorrection->attendance_id);
 
         $breakTimes = BreakTime::where('attendance_id',$attendance->id)->get();
         foreach($breakTimes as $i => $breakTime){

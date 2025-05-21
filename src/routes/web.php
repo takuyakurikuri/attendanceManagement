@@ -14,16 +14,13 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 Route::middleware(['auth','verified'])->group(function(){
-    //Route::get('/', function () { return view('index'); });
     Route::get('/attendance', [AttendanceController::class,'attendanceStatus']);
     Route::Post('/attendance/clockIn',[AttendanceController::class,'ClockIn']);
     Route::patch('/attendance/clockOut',[AttendanceController::class,'clockOut']);
     Route::Post('/attendance/breakStart',[AttendanceController::class,'breakStart']);
     Route::patch('/attendance/breakEnd',[AttendanceController::class,'breakEnd']);
     Route::get('/attendance/list', [AttendanceController::class,'attendanceList'])->name('attendance.list');
-    //Route::get('/attendance/{attendance_id}', [AttendanceController::class,'attendanceDetail']);
-    // Route::get('/stamp_correction_request/list', [CorrectionController::class,'changeApplicationList']);
-    // Route::post('/attendance/modify', [CorrectionController::class,'apply']);
+
 });
 
 //メール認証3点セット
@@ -38,7 +35,6 @@ Route::get('/email/verify/{id}/{hash}', function ($id) {
             return redirect('/login')->with('message', 'すでに認証済みです。');
         }
 
-    //emailVerifyはログイン済みユーザーを想定しているので強制書き込み
     $user->forceFill([
             'email_verified_at' => Carbon::now(),
         ])->save();
@@ -69,9 +65,7 @@ Route::middleware('auth:admin')->group(function(){
     Route::get('/admin/attendance/list', [AdminAttendanceController::class,'memberList'])->name('member.list');
     Route::post('/admin/logout', [AdminAttendanceController::class,'adminLogout']);
     Route::get('/admin/staff/list',[AdminAttendanceController::class,'staffList']);
-    // Route::get('/stamp_correction_request/list', [AdminAttendanceController::class,'adminChangeApplicationList']);
     Route::get('/admin/attendance/staff/{user_id}', [AdminAttendanceController::class,'staffAttendanceList'])->name('admin.attendance.list');
-    //Route::get('/attendance/{attendance_id}', [AttendanceController::class,'attendanceDetail']);
     Route::get('/stamp_correction_request/approve/{attendance_correct_request}',[CorrectionController::class,'requestDetail'])->name('attendance.correct.request');
     Route::post('/stamp_correction_request/approve',[CorrectionController::class,'approveRequest'])->name('approve.request');
     Route::post('/admin/attendance/staff/csv',[AdminAttendanceController::class,'exportCsv']);
@@ -82,16 +76,3 @@ Route::middleware(MultiGuardAuth::class)->group(function(){
     Route::post('/attendance/modify', [CorrectionController::class,'apply']);
     Route::get('/stamp_correction_request/list', [CorrectionController::class,'changeApplicationList']);
 });
-
-// Route::prefix('admin')->name('admin.')->group(function () {
-//     // 管理者ログインページ
-//     Route::get('login', [AdminAttendanceController::class, 'adminLogin'])->name('login');
-
-//     // ログアウト
-//     Route::post('logout', [AdminAttendanceController::class, 'adminLogout'])->name('logout');
-
-//     // 認証後にアクセスできるページ
-//     Route::middleware('auth:admin')->group(function () {
-//         Route::get('attendance/list', [AdminAttendanceController::class, 'memberList'])->name('attendance.list');
-//     });
-// });

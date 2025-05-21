@@ -16,6 +16,7 @@ class AttendanceController extends Controller
     public function attendanceStatus(){
         $user = Auth::user();
         $today = Carbon::today();
+        $date = Carbon::now();
         $getAttendance = Attendance::where('user_id',$user->id)->whereDate('clock_in',$today);
         $attendance = $getAttendance->first();
         $clockOut = $getAttendance->whereNotNull('clock_out')->first();
@@ -31,7 +32,7 @@ class AttendanceController extends Controller
         if($clockOut) {
             $isClockOut = true;
         }
-        return view('attendance',compact('isWorkingToday','attendance','isBreaking','isClockOut'));
+        return view('attendance',compact('isWorkingToday','attendance','isBreaking','isClockOut','date'));
     }
 
     public function attendanceList(Request $request){
@@ -45,7 +46,6 @@ class AttendanceController extends Controller
     public function attendanceDetail($attendance_id){
         $attendance = Attendance::find($attendance_id);
         $breakTimes = BreakTime::where('attendance_id',$attendance_id)->get();
-        // $user = Auth::user();
         $user = $attendance->user;
         $attendanceCorrection = AttendanceCorrection::where('attendance_id',$attendance->id)->orderByDesc('id')->first();
         return view('attendance_detail',compact('attendance','breakTimes','user','attendanceCorrection'));

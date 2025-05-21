@@ -3,9 +3,6 @@
 namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
-use App\Actions\Fortify\ResetUserPassword;
-use App\Actions\Fortify\UpdateUserPassword;
-use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -15,7 +12,6 @@ use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
-use App\Actions\Fortify\AdminLoginResponse;
 use Illuminate\Support\Facades\Auth;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -57,22 +53,6 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($throttleKey);
         });
 
-        //認証ガードの切り替え
-        // Fortify::authenticateUsing(function (Request $request) {
-        //     $credentials = $request->only('email','password');
-
-        //     if(request()->is('/admin/*')){
-        //         if(Auth::guard('admin')->attempt($credentials)){
-        //             return Auth::guard('admin')->user();
-        //         }
-        //     } else {
-        //         if(Auth::guard('web')->attempt($credentials)){
-        //             return Auth::guard('web')->user();
-        //         }
-        //     }
-        //     return null;
-        // });
-
         //カスタムログイン処理
         app()->singleton(LoginResponse::class,function() {
             return new class implements LoginResponse {
@@ -95,20 +75,6 @@ class FortifyServiceProvider extends ServiceProvider
                 }
             };
         });
-
-        //管理者を考慮したカスタムログイン処理
-        // app()->singleton(LoginResponse::class, function () {
-        //     return new class implements LoginResponse {
-        //         public function toResponse($request)
-        //         {
-        //             if (Auth::guard('admin')->check()) {
-        //                 return redirect()->intended('/admin/dashboard');
-        //             }
-
-        //             return redirect()->intended('/attendance');
-        //         }
-        //     };
-        // });
 
         //カスタムログアウト処理
         app()->singleton(LogoutResponse::class, function () {

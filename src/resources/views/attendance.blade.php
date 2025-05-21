@@ -25,8 +25,10 @@
             <div class="status-label">勤務外</div>
         @endif
         <h2 id="current-date">＊＊＊＊年＊月＊日(＊)</h2>
-        <div class="current-time" id="current-time">＊＊:＊＊:＊＊</div>
-
+        @php
+            $currentTime = $date->copy()->format('H:i');
+        @endphp
+        <div class="current-time" id="current-time">{{$currentTime}}</div>
         @if ($isClockOut)
             <h2 class="thanks">お疲れ様でした。</h2>
         @elseif ($isWorkingToday)
@@ -66,8 +68,7 @@
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-        document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+        document.getElementById('current-time').textContent = `${hours}:${minutes}`;
 
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
@@ -77,8 +78,8 @@
         document.getElementById('current-date').textContent = `${year}年${month}月${day}日（${weekday}）`;
     }
 
-    setInterval(updateClock, 1000); // 毎秒更新
-    updateClock(); // 初回実行
+    setInterval(updateClock, 1000);
+    updateClock();
 </script>
 
 @endsection

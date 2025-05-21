@@ -24,7 +24,6 @@
             <form action="/stamp_correction_request/approve" id="approve-request" method="post">
                 @csrf
                 <input type="hidden" name="attendanceCorrection_id" id="" value="{{$attendanceCorrection->id}}">
-                {{-- <input type="hidden" name="attendance_id" value="{{$attendance->id}}"> --}}
 
                 <div class="row form-section">
                     <label class="col-sm-2 col-form-label fw-bold">名前</label>

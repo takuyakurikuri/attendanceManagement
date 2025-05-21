@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Fortify\Contracts\RegisterResponse;
@@ -26,15 +24,10 @@ class CustomRegisterController extends RegisteredUserController
             ]);
         }
 
-        // event(new Registered($user = $creator->create($request->all())));
-
-        // $this->guard->login($user, $request->boolean('remember'));
-
         $user = $creator->create($request->all());
 
         $user->sendEmailVerificationNotification();
 
-        //ログインはしなくても大丈夫くないか？
         $this->guard->login($user, $request->boolean('remember'));
 
         return app(RegisterResponse::class);

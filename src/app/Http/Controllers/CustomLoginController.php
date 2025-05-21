@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Requests\LoginRequest;
-use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Actions\AttemptToAuthenticate;
 use Laravel\Fortify\Actions\CanonicalizeUsername;
 use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
 use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Illuminate\Routing\Pipeline;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 /*
  * FormRequestを使用するために元のログインコントローラを継承
@@ -25,13 +21,6 @@ class CustomLoginController extends AuthenticatedSessionController
     /**
      * LoginRequestをカスタムしたFormRequestに置き換えるために再定義
      */
-    // public function customStore(LoginRequest $request)
-    // {
-    //     return $this->customLoginPipeline($request)->then(function ($request) {
-    //         return app(LoginResponse::class);
-    //     });
-    // }
-
     public function customStore(LoginRequest $request)
     {
 
@@ -42,15 +31,13 @@ class CustomLoginController extends AuthenticatedSessionController
 
             if(Auth::guard($guard)->attempt(array_merge($credentials,['role' => $role]))){
 
-                //メール認証処理
 
                 /** @var \App\Models\User $user */
                 $user = Auth::guard($guard)->user();
 
                 if ($guard === 'web' && !$user->hasVerifiedEmail()) {
 
-                    //検証用
-                    //Auth::guard($guard)->logout();//ここで無理にログアウトさせなくてもいいかも？
+
                     return redirect()->route('verification.notice')
                         ->with('error', 'メール認証を完了してください。');
                 }
@@ -89,7 +76,6 @@ class CustomLoginController extends AuthenticatedSessionController
             config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
             config('fortify.lowercase_usernames') ? CanonicalizeUsername::class : null,
             Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
-            //AttemptToAuthenticate::class,
             PrepareAuthenticatedSession::class,
         ]));
     }

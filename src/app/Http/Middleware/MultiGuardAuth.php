@@ -30,7 +30,6 @@ class MultiGuardAuth
             return $next($request);
         }
 
-        // 認証されていない場合
-        return redirect('/login'); //一般ユーザーへのリダイレクトを想定する
+        return redirect('/login'); //マルチガードだが、一般ユーザーへのリダイレクトを想定する
     }
 }

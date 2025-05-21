@@ -14,8 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias(['auth' => Authenticate::class]);
-        //->append(MultiGuardAuth::class);
-        //上記は登録するだけなら不要か？
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
