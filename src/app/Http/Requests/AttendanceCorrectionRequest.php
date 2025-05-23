@@ -24,9 +24,9 @@ class AttendanceCorrectionRequest extends FormRequest
     public function rules(): array
     {
         $rules =  [
-            // 'reason' =>[
-            //     'required',
-            // ],
+            'reason' =>[
+                'required',
+            ],
             'clock_in' =>[
                 'required',
             ],
@@ -52,9 +52,9 @@ class AttendanceCorrectionRequest extends FormRequest
             ],
         ];
         
-        if(!Auth::guard('admin')->check()){
-            $rules['reason'] = ['required'];
-        }
+        // if(!Auth::guard('admin')->check()){
+        //     $rules['reason'] = ['required'];
+        // }
 
         return $rules;
     }

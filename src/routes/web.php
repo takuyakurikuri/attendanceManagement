@@ -28,21 +28,27 @@ Route::get('/email/verify', function () {
     return view('auth.verify_email');
 })->name('verification.notice');
 
-Route::get('/email/verify/{id}/{hash}', function ($id) {
-    $user = User::find($id);
+// Route::get('/email/verify/{id}/{hash}', function ($id) {
+//     $user = User::find($id);
 
-    if ($user->hasVerifiedEmail()) {
-            return redirect('/login')->with('message', 'すでに認証済みです。');
-        }
+//     if ($user->hasVerifiedEmail()) {
+//             return redirect('/login')->with('message', 'すでに認証済みです。');
+//         }
 
-    $user->forceFill([
-            'email_verified_at' => Carbon::now(),
-        ])->save();
+//     $user->forceFill([
+//             'email_verified_at' => Carbon::now(),
+//         ])->save();
 
-    Auth::login($user);
+//     Auth::login($user);
 
-    return redirect('/attendance')->with('message', 'メール認証が完了しました。');
+//     return redirect('/attendance')->with('message', 'メール認証が完了しました。');
     
+// })->middleware('signed')->name('verification.verify');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/attendance');
 })->middleware('signed')->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {

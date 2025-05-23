@@ -18,6 +18,13 @@ class AdminGetAttendanceListTest extends TestCase
      */
     public function test_all_user(): void
     {
+        User::factory()->create([
+            'email' => 'superuser@example.com',
+            'password' => bcrypt('password'),
+            'email_verified_at' =>
+            now(),
+            'role' => 1,
+        ]);
         
         $user1 = User::factory()->create(['name'=>"test1"]);
         $user2 = User::factory()->create(['name'=>"test2"]);
@@ -25,55 +32,46 @@ class AdminGetAttendanceListTest extends TestCase
         
 
         $attendance1 = Attendance::factory()->create([
-            'clock_in' => Carbon::create(2025, 5, 21, 10, 0, 0),
-            'clock_out'=> Carbon::create(2025, 5, 21, 10, 0, 0)->addHours(9),
+            'clock_in' => Carbon::now(),
+            'clock_out'=> Carbon::now()->addHours(9),
             'user_id' => $user1->id,
         ]);
 
         $break1 = BreakTime::factory()->create([
-            'break_start' => Carbon::create(2025, 5, 21, 10, 0, 0)->addHours(1),
-            'break_end' => Carbon::create(2025, 5, 21, 10, 0, 0)->addHours(2),
+            'break_start' => Carbon::now()->addHours(1),
+            'break_end' => Carbon::now()->addHours(2),
             'attendance_id' => $attendance1->id,
         ]);
         
         $attendance2 = Attendance::factory()->create([
-            'clock_in' => Carbon::create(2025, 5, 21, 10, 0, 0),
-            'clock_out'=> Carbon::create(2025, 5, 21, 10, 0, 0)->addHours(9),
+            'clock_in' => Carbon::now(),
+            'clock_out'=> Carbon::now()->addHours(9),
             'user_id' => $user2->id,
         ]);
 
         $break2 = BreakTime::factory()->create([
-            'break_start' => Carbon::create(2025, 5, 21, 10, 0, 0)->addHours(1),
-            'break_end' => Carbon::create(2025, 5, 21, 10, 0, 0)->addHours(2),
+            'break_start' => Carbon::now()->addHours(1),
+            'break_end' => Carbon::now()->addHours(2),
             'attendance_id' => $attendance2->id,
         ]);
 
         $attendance3 = Attendance::factory()->create([
-            'clock_in' => Carbon::create(2025, 5, 21, 10, 0, 0),
-            'clock_out'=> Carbon::create(2025, 5, 21, 10, 0, 0)->addHours(9),
+            'clock_in' => Carbon::now(),
+            'clock_out'=> Carbon::now()->addHours(9),
             'user_id' => $user3->id,
         ]);
 
         //休憩は20分の想定
         $break3 = BreakTime::factory()->create([
-            'break_start' => Carbon::create(2025, 5, 21, 10, 0, 0)->addMinutes(10),
-            'break_end' => Carbon::create(2025, 5, 21, 10, 0, 0)->addMinutes(20),
+            'break_start' => Carbon::now()->addMinutes(10),
+            'break_end' => Carbon::now()->addMinutes(20),
             'attendance_id' => $attendance3->id,
         ]);
 
         $break4 = BreakTime::factory()->create([
-            'break_start' => Carbon::create(2025, 5, 21, 10, 0, 0)->addMinutes(30),
-            'break_end' => Carbon::create(2025, 5, 21, 10, 0, 0)->addMinute(40),
+            'break_start' => Carbon::now()->addMinutes(30),
+            'break_end' => Carbon::now()->addMinute(40),
             'attendance_id' => $attendance3->id,
-        ]);
-
-
-        User::factory()->create([
-            'email' => 'superuser@example.com',
-            'password' => bcrypt('password'),
-            'email_verified_at' =>
-            now(),
-            'role' => 1,
         ]);
         
         $userData = [
@@ -83,7 +81,7 @@ class AdminGetAttendanceListTest extends TestCase
 
         $response = $this->post("/admin/login/store", $userData);
 
-        $response = $this->get("admin/attendance/list");
+        $response = $this->get(route('member.list'));
 
         $response->assertSee($attendance1->clock_in->format('m/d'));
         $response->assertSee($attendance2->clock_in->format('m/d'));
