@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BreakCorrection;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,6 +18,8 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             AttendancesSeeder::class,
             BreakTimesSeeder::class,
+            AttendanceCorrectionSeeder::class,
+            BreakCorrectionSeeder::class,
         ]);
     }
 }
