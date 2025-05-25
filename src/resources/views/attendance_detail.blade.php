@@ -48,7 +48,7 @@
                             @if (optional($attendanceCorrection)->status == 1)
                                 <p class="form-control fw-bold attendanceCorrection">{{$attendanceCorrection->clock_in->format('H:i')}}</p>
                             @else
-                                <input type="time" name="clock_in" class="form-control fw-bold" value="{{$attendance->clock_in->format('H:i')}}">
+                                <input type="time" name="clock_in" class="form-control fw-bold" value="{{ old('clock_in', $attendance->clock_in->format('H:i')) }}">
                                 @error('clock_in') <div class="text-danger">{{$message}}</div> @enderror
                             @endif
                         </div>
@@ -57,7 +57,7 @@
                             @if (optional($attendanceCorrection)->status == 1)
                                 <p class="form-control fw-bold attendanceCorrection">{{$attendanceCorrection->clock_out->format('H:i')}}</p>
                             @else
-                                <input type="time" name="clock_out" class="form-control fw-bold" value="{{$attendance->clock_out->format('H:i')}}">
+                                <input type="time" name="clock_out" class="form-control fw-bold" value="{{ old('clock_out', $attendance->clock_out->format('H:i')) }}">
                                 @error('clock_out') <div class="text-danger">{{$message}}</div> @enderror
                             @endif
                         </div>
@@ -82,14 +82,14 @@
                             <div class="row form-section">
                                 <label class="col-sm-2 col-form-label fw-bold">休憩</label>
                                 <div class="col-sm-4">
-                                    <input type="time" name="break_start[]" class="form-control fw-bold" value="{{$breakTime->break_start->format('H:i')}}">
+                                    <input type="time" name="break_start[]" class="form-control fw-bold" value="{{ old('break_start.' . $index, $breakTime->break_start->format('H:i')) }}">
                                     @error('break_start.' . $index)
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-sm-1 text-center">〜</div>
                                 <div class="col-sm-4">
-                                    <input type="time" name="break_end[]" class="form-control fw-bold" value="{{$breakTime->break_end->format('H:i')}}">
+                                    <input type="time" name="break_end[]" class="form-control fw-bold" value="{{ old('break_end.' . $index, $breakTime->break_end->format('H:i')) }}">
                                     @error('break_end.' . $index)
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -105,7 +105,7 @@
                             @if (optional($attendanceCorrection)->status == 1)
                                 <p class="form-control fw-bold attendanceCorrection">{{$attendanceCorrection->reason}}</p>
                             @else
-                                <textarea name="reason" class="form-control fw-bold" placeholder="申請の理由を記載して下さい"></textarea>
+                                <textarea name="reason" class="form-control fw-bold" placeholder="申請の理由を記載して下さい">{{ old('reason', '') }}</textarea>
                                 @error('reason') <div class="text-danger">{{$message}}</div> @enderror
                             @endif
                         </div>
