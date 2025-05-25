@@ -24,9 +24,11 @@ Route::middleware(['auth','verified'])->group(function(){
 });
 
 //メール認証3点セット
-Route::get('/email/verify', function () {
-    return view('auth.verify_email');
-})->name('verification.notice');
+// Route::get('/email/verify', function () {
+//     return view('auth.verify_email');
+// })->name('verification.notice');
+
+Route::get('/email/verify', [CustomLoginController::class,'toMailVerify'])->name('verification.notice');
 
 // Route::get('/email/verify/{id}/{hash}', function ($id) {
 //     $user = User::find($id);
@@ -42,20 +44,23 @@ Route::get('/email/verify', function () {
 //     Auth::login($user);
 
 //     return redirect('/attendance')->with('message', 'メール認証が完了しました。');
-    
 // })->middleware('signed')->name('verification.verify');
 
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
+// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+//     $request->fulfill();
 
-    return redirect('/attendance');
-})->middleware('signed')->name('verification.verify');
+//     return redirect('/attendance');
+// })->middleware('signed')->name('verification.verify');
 
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
+Route::get('/email/verify/{id}/{hash}', [CustomLoginController::class,'mailVerifiedAfter'])->middleware('signed')->name('verification.verify');
 
-    return back()->with('message', '認証用のリンクを再送しました');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+// Route::post('/email/verification-notification', function (Request $request) {
+//     $request->user()->sendEmailVerificationNotification();
+
+//     return back()->with('message', '認証用のリンクを再送しました');
+// })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::post('/email/verification-notification', [CustomLoginController::class,'resendEmail'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 //メール認証3点セットここまで
 
 Route::get('/login', function () { return view('auth.login');})->name('login');

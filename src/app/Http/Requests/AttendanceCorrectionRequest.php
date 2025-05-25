@@ -51,10 +51,6 @@ class AttendanceCorrectionRequest extends FormRequest
                 'date_format:H:i'
             ],
         ];
-        
-        // if(!Auth::guard('admin')->check()){
-        //     $rules['reason'] = ['required'];
-        // }
 
         return $rules;
     }

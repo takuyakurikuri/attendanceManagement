@@ -12,6 +12,8 @@ use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Illuminate\Routing\Pipeline;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
  * FormRequestを使用するために元のログインコントローラを継承
@@ -78,5 +80,21 @@ class CustomLoginController extends AuthenticatedSessionController
             Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
             PrepareAuthenticatedSession::class,
         ]));
+    }
+
+    public function toMailVerify (){
+        return view('auth.verify_email');
+    }
+
+    public function mailVerifiedAfter(EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return redirect('/attendance');
+    }
+
+    public function resendEmail(Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('message', '認証用のリンクを再送しました');
     }
 }
