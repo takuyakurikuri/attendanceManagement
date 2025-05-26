@@ -15,9 +15,7 @@ use App\Models\User;
 class AdminApproveRequestTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_wait_approve_list(): void
     {
         User::factory()->create([

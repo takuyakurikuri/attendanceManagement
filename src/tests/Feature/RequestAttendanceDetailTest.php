@@ -14,9 +14,7 @@ use App\Models\User;
 class RequestAttendanceDetailTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_validation_attending_after_reaving_time(): void
     {
         $user = User::factory()->create([

@@ -31,7 +31,6 @@ class BreakCorrectionSeeder extends Seeder
 
             // 各BreakTimeに対して1件のBreakCorrectionを作る
             foreach ($breakTimes as $index => $breakTime) {
-                // 最後の1件なら残り全部使う
                 $minutes = ($index === $breakCount - 1)
                     ? $remainingMinutes
                     : rand(10, min(30, $remainingMinutes - ($breakCount - $index - 1) * 10));

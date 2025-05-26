@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>勤怠画面</title>
+    <title>申請一覧画面</title>
 @endsection
 
 @section('css')

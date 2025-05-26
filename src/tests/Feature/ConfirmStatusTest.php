@@ -13,9 +13,7 @@ use App\Models\BreakTime;
 class ConfirmStatusTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_off_duty(): void
     {
         User::factory()->create([

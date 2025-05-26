@@ -12,9 +12,7 @@ use Illuminate\Support\Carbon;
 class LeavingWorkTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_end_work(): void
     {
         $user = User::factory()->create([
@@ -82,6 +80,7 @@ class LeavingWorkTest extends TestCase
         $attendance = Attendance::where('user_id',$user->id)->whereDate('clock_in',$today)->first();
 
         $response->assertSee($attendance->clock_out->format('H:i'));
+        $response->assertSee($attendance->clock_in->format('m/d'));
 
     }
 }

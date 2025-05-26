@@ -12,9 +12,7 @@ use Illuminate\Support\Carbon;
 class AttendanceTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_attendance(): void
     {
         User::factory()->create([
@@ -107,6 +105,10 @@ class AttendanceTest extends TestCase
         $recordExists = Attendance::where('user_id',$user->id)->whereDate('clock_in', $today)->exists();
 
         $this->assertTrue($recordExists);
+
+        $response = $this->get("/attendance/list");
+        $attendance = Attendance::where('user_id',$user->id)->whereDate('clock_in',$today)->first();
+        $response->assertSee($attendance->clock_in->format('m/d'));
 
     }
 }

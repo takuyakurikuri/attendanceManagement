@@ -13,9 +13,7 @@ use App\Models\User;
 class GetAttendanceListTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_attendance_list(): void
     {
         $user = User::factory()->create([

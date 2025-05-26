@@ -13,9 +13,7 @@ use App\Models\User;
 class AdminGetMemberListTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_get_member_data(): void
     {
 

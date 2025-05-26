@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>登録</title>
+    <title>メール確認</title>
 @endsection
 
 @section('css')

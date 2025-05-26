@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\View;
 class GetDateTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_getDate()
     {
         Carbon::setTestNow(Carbon::create(2025, 5, 20, 10, 0));

@@ -13,9 +13,7 @@ use Illuminate\Support\Carbon;
 class AdminGetAttendanceListTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_all_user(): void
     {
         User::factory()->create([

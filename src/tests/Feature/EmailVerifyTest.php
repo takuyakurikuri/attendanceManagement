@@ -15,9 +15,7 @@ use Illuminate\Auth\Events\Verified;
 class EmailVerifyTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_send_email()
     {
 

@@ -12,9 +12,7 @@ use Illuminate\Support\Carbon;
 class BreakTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_break(): void
     {
         $user = User::factory()->create([

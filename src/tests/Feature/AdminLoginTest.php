@@ -10,9 +10,7 @@ use App\Models\User;
 class AdminLoginTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_validation_email()
     {
         User::factory()->create([

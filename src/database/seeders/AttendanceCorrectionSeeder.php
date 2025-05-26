@@ -15,7 +15,6 @@ class AttendanceCorrectionSeeder extends Seeder
      */
     public function run(): void
     {
-        // 既存の勤怠データを取得（必要なら条件を絞ってもOK）
         $attendances = Attendance::inRandomOrder()->take(20)->get();
 
         foreach ($attendances as $attendance) {
@@ -26,7 +25,6 @@ class AttendanceCorrectionSeeder extends Seeder
             $correctedClockIn = Carbon::parse($date . ' 09:00:00');
             $correctedClockOut = Carbon::parse($date . ' 18:00:00');
 
-            // 修正申請のダミーデータ作成
             AttendanceCorrection::create([
                 'attendance_id' => $attendance->id,
                 'user_id' => $attendance->user_id,
@@ -34,7 +32,7 @@ class AttendanceCorrectionSeeder extends Seeder
                 'clock_out' => $correctedClockOut,
                 'reason' => fake()->sentence(),
                 'status' => random_int(1, 2),
-                'admin_id' => 1, // 適当なadmin ID
+                'admin_id' => 1,
             ]);
         }
     }

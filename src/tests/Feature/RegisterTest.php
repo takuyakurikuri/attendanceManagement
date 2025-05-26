@@ -9,9 +9,7 @@ use Tests\TestCase;
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_validation_name() :void
     {
         $response = $this->get('/register');

@@ -13,9 +13,7 @@ use Illuminate\Support\Carbon;
 class AdminAttendanceDetailTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_get_detail(): void
     {
         $user1 = User::factory()->create(['name'=>"test1"]);

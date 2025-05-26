@@ -11,9 +11,7 @@ class LoginTest extends TestCase
 {
 
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
     public function test_validation_email()
     {
         User::factory()->create([
