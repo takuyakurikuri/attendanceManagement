@@ -50,3 +50,7 @@ mailhog
 URL 開発環境：http://localhost/  
 phpMyAdmin：http://localhost:8080/  
 mailhog：http://localhost:8025/
+
+**ER図**
+
+![Image](https://github.com/user-attachments/assets/d56b31da-e0c3-417b-8007-4d30764e666c)
